@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace OpenWeather_Desafio.Data
 {
+    
+
     public class AppDbContext : DbContext
     {
         
@@ -35,9 +37,8 @@ namespace OpenWeather_Desafio.Data
                    .HasPrecision(10, 2);
 
 
-
-                modelBuilder.Entity<Cidade>().HasData(
-                    new Cidade { Id = 1, Nome = "Teste", Temp = 0.00, TempMin = 0.00, TempMax = 0.00});
+            modelBuilder.Entity<Cidade>().HasData(
+                    new Cidade { Id = DateTime.Now, Nome = "Teste", Temp = 0.00, TempMin = 0.00, TempMax = 0.00});
 
             }
 

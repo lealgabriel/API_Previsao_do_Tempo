@@ -19,9 +19,8 @@ namespace OpenWeather_Desafio.Migrations
 
             modelBuilder.Entity("OpenWeather_Desafio.Data.Cidade", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<DateTime>("Id")
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Nome")
                         .HasMaxLength(80)
@@ -39,9 +38,6 @@ namespace OpenWeather_Desafio.Migrations
                         .HasPrecision(10, 2)
                         .HasColumnType("double");
 
-                    b.Property<DateTime>("dateTime")
-                        .HasColumnType("datetime(6)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Produtos");
@@ -49,12 +45,11 @@ namespace OpenWeather_Desafio.Migrations
                     b.HasData(
                         new
                         {
-                            Id = 1,
+                            Id = new DateTime(2021, 12, 22, 12, 31, 45, 11, DateTimeKind.Local).AddTicks(9655),
                             Nome = "Teste",
                             Temp = 0.0,
                             TempMax = 0.0,
-                            TempMin = 0.0,
-                            dateTime = new DateTime(2021, 12, 22, 0, 51, 32, 383, DateTimeKind.Local).AddTicks(6571)
+                            TempMin = 0.0
                         });
                 });
 #pragma warning restore 612, 618
