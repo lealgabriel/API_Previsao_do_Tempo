@@ -28,8 +28,15 @@ namespace OpenWeather_Desafio.Controllers
         // GET: api/Cidades
         [HttpGet]
 
-        public async Task<ActionResult<string>> GetProdutos([FromQuery] string city)
+        public async Task<ActionResult<string>> GetCidade([FromQuery] string city)
         {
+
+            if (city == null)
+            {
+                city = "sao paulo";
+
+            }
+
 
             var search = from p in _context.Produtos
                          where p.Nome == city
@@ -39,31 +46,29 @@ namespace OpenWeather_Desafio.Controllers
             {
                 foreach (var p in search)
                 {
-                    if (DateTime.Now.AddMinutes(-10) < p.Id)
+                    if (DateTime.Now.AddMinutes(-20) < p.Id)
                     {
                         return $"Clima em {p.Nome}:\nTemperatura atual: {p.Temp}\nTemperatura Máxima: {p.TempMax}\nTemperatura Mínima: {p.TempMin}";
                     }
-                    else
-                    {
-
-                        Microsoft.EntityFrameworkCore.ChangeTracking.EntityEntry<Cidade> entityEntry = _context.Produtos.Remove(p);
-                        await _context.SaveChangesAsync();
-
-                    }
+                    
 
                 }
 
             }
 
 
-            if (city == null)
-            {
-                city = "sao paulo";
-            }
+            
 
             HttpClient client = new HttpClient();
             var response = await client.GetAsync($@"https://api.openweathermap.org/data/2.5/weather?q={city}&appid=c12b08a118f8f5b6a8ed7804575926c0");
             var content = await response.Content.ReadAsStringAsync();
+
+            if(response.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return StatusCode(404);
+            }
+
+            
 
             var temp = Welcome.FromJson(content);
 
