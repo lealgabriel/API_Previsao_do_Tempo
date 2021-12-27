@@ -25,18 +25,15 @@ namespace OpenWeather_Desafio.Controllers
 
         public Cidade resultado = new Cidade();
 
-        // GET: api/Cidades
+        
         [HttpGet]
-
         public async Task<ActionResult<string>> GetCidade([FromQuery] string city)
         {
-
             if (city == null)
             {
                 city = "sao paulo";
 
             }
-
 
             var search = from p in _context.Produtos
                          where p.Nome == city
@@ -48,27 +45,23 @@ namespace OpenWeather_Desafio.Controllers
                 {
                     if (DateTime.Now.AddMinutes(-20) < p.Id)
                     {
-                        return $"Clima em {p.Nome}:\nTemperatura atual: {p.Temp}\nTemperatura Máxima: {p.TempMax}\nTemperatura Mínima: {p.TempMin}";
+                        return $"Clima em {p.Nome}:\n" +
+                            $"Temperatura atual: {p.Temp}\n" +
+                            $"Temperatura Máxima: {p.TempMax}\n" +
+                            $"Temperatura Mínima: {p.TempMin}";
                     }
-                    
-
                 }
-
             }
 
-
-            
-
             HttpClient client = new HttpClient();
-            var response = await client.GetAsync($@"https://api.openweathermap.org/data/2.5/weather?q={city}&appid=c12b08a118f8f5b6a8ed7804575926c0");
+            client.BaseAddress = new Uri("https://api.openweathermap.org/data/2.5/");
+            var response = await client.GetAsync($@"weather?q={city}&appid=c12b08a118f8f5b6a8ed7804575926c0");
             var content = await response.Content.ReadAsStringAsync();
 
             if(response.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 return StatusCode(404);
             }
-
-            
 
             var temp = Welcome.FromJson(content);
 
@@ -77,13 +70,13 @@ namespace OpenWeather_Desafio.Controllers
             _context.Produtos.Add(cidade);
             await _context.SaveChangesAsync();
             
-            return $"Clima em {city}:\nTemperatura atual: {cidade.Temp}\nTemperatura Máxima: {cidade.TempMax}\nTemperatura Mínima: {cidade.TempMin}";
-
-            
-
+            return $"Clima em {city}:\n" +
+                $"Temperatura atual: {cidade.Temp}\n" +
+                $"Temperatura Máxima: {cidade.TempMax}\n" +
+                $"Temperatura Mínima: {cidade.TempMin}";
         }
 
-        // DELETE: api/Cidades/5
+        
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCidade(DateTime id)
         {
