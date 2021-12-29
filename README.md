@@ -2,11 +2,11 @@
 
 ## Softwares utilizados neste projeto:
 
-- Visual Studio Community 2019
+- Visual Studio Community 2022
 - MySql Community 5.6
 
 ## O que esta API faz?
-Esta API retorna a temperatura atual, minima e maxima da cidade que você endicar no endpoint: /api/Cidades
+Esta API retorna a temperatura atual, minima e máxima da cidade que você endicar no endpoint: /api/Cidades
 
 ## Como utilizar esta API?
 
